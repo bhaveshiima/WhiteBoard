@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bhavesh's Whiteboard – Live Teaching Board</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     TOP MENU BAR
+════════════════════════════════════════════ -->
+<header class="menu-bar">
+  <div class="menu-left">
+    <div class="logo">⬜ Bhavesh's Whiteboard</div>
+    <!-- Save status pill – updated by JS -->
+    <div class="save-status" id="save-status" title="Auto-save status">
+      <span class="save-dot" id="save-dot"></span>
+      <span id="save-label">—</span>
+    </div>
+  </div>
+  <div class="menu-center">
+    <button class="menu-btn" id="btn-undo" title="Undo (Ctrl+Z)">
+      <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+    </button>
+    <button class="menu-btn" id="btn-redo" title="Redo (Ctrl+Y)">
+      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 15.7c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 15.5l9-1v-9l-3.6 3.6z"/></svg>
+    </button>
+    <div class="separator"></div>
+    <button class="menu-btn" id="btn-save-local" title="Save to browser (Ctrl+S)">
+      <svg viewBox="0 0 24 24"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V7l-4-4zm-5 16a3 3 0 110-6 3 3 0 010 6zm3-10H5V5h10v4z"/></svg>
+      Save
+    </button>
+    <button class="menu-btn" id="btn-new-board" title="New Board">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      New
+    </button>
+    <div class="separator"></div>
+    <button class="menu-btn" id="btn-clear" title="Clear current page">
+      <svg viewBox="0 0 24 24"><path d="M19 4h-3.5l-1-1h-5l-1 1H5v2h14M6 19a2 2 0 002 2h8a2 2 0 002-2V7H6v12z"/></svg>
+    </button>
+  </div>
+  <div class="menu-right">
+    <button class="menu-btn" id="btn-grid" title="Toggle Grid">
+      <svg viewBox="0 0 24 24"><path d="M3 3v18h18V3H3zm8 16H5v-6h6v6zm0-8H5V5h6v6zm8 8h-6v-6h6v6zm0-8h-6V5h6v6z"/></svg>
+    </button>
+    <button class="menu-btn" id="btn-dark" title="Toggle Dark Mode">
+      <svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+    </button>
+    <div class="separator"></div>
+    <button class="menu-btn primary" id="btn-save-png" title="Export as PNG">
+      <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm0-10h4v6h6v-6h4l-7-7-7 7z"/></svg>
+      PNG
+    </button>
+    <button class="menu-btn primary" id="btn-save-pdf" title="Export all pages as PDF" style="background:#e74c3c">
+      <svg viewBox="0 0 24 24"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5.5h1v-3h-1v3z"/></svg>
+      PDF
+    </button>
+    <button class="menu-btn" id="btn-save-json" title="Save JSON">
+      <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+    </button>
+    <button class="menu-btn" id="btn-load-json" title="Load JSON">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+    </button>
+    <input type="file" id="file-load-json" accept=".json" style="display:none" />
+    <input type="file" id="file-load-image" accept="image/*" style="display:none" />
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     LEFT TOOLBAR
+════════════════════════════════════════════ -->
+<aside class="toolbar" id="toolbar">
+
+  <!-- SELECT -->
+  <button class="tool-btn active" data-tool="select" title="Select / Move (V)">
+    <svg viewBox="0 0 24 24"><path d="M4 0l16 12.279-6.951 1.17 4.325 8.817-3.596 1.734-4.035-8.619L4 18V0z"/></svg>
+  </button>
+
+  <!-- PEN -->
+  <button class="tool-btn" data-tool="pen" title="Pen (P)">
+    <svg viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75 1.84-1.83zM3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+  </button>
+
+  <!-- HIGHLIGHTER -->
+  <button class="tool-btn" data-tool="highlight" title="Highlighter (H)">
+    <svg viewBox="0 0 24 24"><path d="M6 20h4v-4H6v4zm0-8h4V8H6v4zm6 8h4v-4h-4v4zm0-8h4V8h-4v4zm6 8h4v-4h-4v4zm0-8h4V8h-4v4zM6 4v2h16V4H6z"/></svg>
+  </button>
+
+  <!-- ERASER -->
+  <button class="tool-btn" data-tool="eraser" title="Eraser (E)">
+    <svg viewBox="0 0 24 24"><path d="M16.24 3.56l4.24 4.24c.78.78.78 2.05 0 2.83L11.42 19.69c-1.17 1.17-3.07 1.17-4.24 0L2.94 15.45c-.78-.78-.78-2.05 0-2.83l9.9-9.9c.78-.79 2.05-.79 2.83-.01l.57.85zM4.35 12.03l4.24 4.24 9.9-9.9-4.24-4.24-9.9 9.9z"/></svg>
+  </button>
+
+  <div class="tool-separator"></div>
+
+  <!-- LINE -->
+  <button class="tool-btn" data-tool="line" title="Line (L)">
+    <svg viewBox="0 0 24 24"><line x1="4" y1="20" x2="20" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+
+  <!-- ARROW -->
+  <button class="tool-btn" data-tool="arrow" title="Arrow (A)">
+    <svg viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+  </button>
+
+  <!-- RECTANGLE -->
+  <button class="tool-btn" data-tool="rect" title="Rectangle (R)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+  </button>
+
+  <!-- CIRCLE -->
+  <button class="tool-btn" data-tool="circle" title="Circle (C)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+  </button>
+
+  <!-- TRIANGLE -->
+  <button class="tool-btn" data-tool="triangle" title="Triangle (T)">
+    <svg viewBox="0 0 24 24"><path d="M12 4L3 20h18L12 4z" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+  </button>
+
+  <div class="tool-separator"></div>
+
+  <!-- TEXT -->
+  <button class="tool-btn" data-tool="text" title="Text (X)">
+    <svg viewBox="0 0 24 24"><path d="M18.5 4l1.16 4.35-.96.26c-.45-1.36-1.11-2.66-2.41-2.66H13v13.59c0 .61.26 1.46 1.5 1.46h.5v1H9v-1h.5c1.24 0 1.5-.85 1.5-1.46V5.95H8.81c-1.3 0-1.96 1.3-2.41 2.66l-.97-.26L6.5 4h12z"/></svg>
+  </button>
+
+  <!-- STICKY NOTE -->
+  <button class="tool-btn" data-tool="sticky" title="Sticky Note (N)">
+    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 7h10v2H7zm0 4h7v2H7z"/></svg>
+  </button>
+
+  <!-- IMAGE -->
+  <button class="tool-btn" data-tool="image" title="Insert Image (I)" id="btn-insert-image">
+    <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+  </button>
+
+  <div class="tool-separator"></div>
+
+  <!-- ZOOM CONTROLS -->
+  <button class="tool-btn" id="btn-zoom-in" title="Zoom In (+)">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z"/></svg>
+  </button>
+  <button class="tool-btn" id="btn-zoom-out" title="Zoom Out (-)">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M7 9h5v1H7z"/></svg>
+  </button>
+  <button class="tool-btn" id="btn-zoom-reset" title="Reset Zoom (0)">
+    <svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+  </button>
+
+</aside>
+
+<!-- ═══════════════════════════════════════════
+     OPTIONS PANEL (right-side floating)
+════════════════════════════════════════════ -->
+<div class="options-panel" id="options-panel">
+
+  <!-- Stroke Color -->
+  <div class="opt-group">
+    <label>Stroke</label>
+    <div class="color-row">
+      <input type="color" id="stroke-color" value="#1a1a2e" title="Stroke color" />
+      <div class="color-presets" id="stroke-presets">
+        <span class="preset" style="background:#1a1a2e" data-color="#1a1a2e" data-target="stroke"></span>
+        <span class="preset" style="background:#e74c3c" data-color="#e74c3c" data-target="stroke"></span>
+        <span class="preset" style="background:#e67e22" data-color="#e67e22" data-target="stroke"></span>
+        <span class="preset" style="background:#f1c40f" data-color="#f1c40f" data-target="stroke"></span>
+        <span class="preset" style="background:#2ecc71" data-color="#2ecc71" data-target="stroke"></span>
+        <span class="preset" style="background:#3498db" data-color="#3498db" data-target="stroke"></span>
+        <span class="preset" style="background:#9b59b6" data-color="#9b59b6" data-target="stroke"></span>
+        <span class="preset transparent-preset" data-color="transparent" data-target="stroke" title="Transparent"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fill Color -->
+  <div class="opt-group" id="fill-group">
+    <label>Fill</label>
+    <div class="color-row">
+      <input type="color" id="fill-color" value="#ffffff" title="Fill color" />
+      <div class="color-presets">
+        <span class="preset" style="background:#ffffff;border:1px solid #ccc" data-color="#ffffff" data-target="fill"></span>
+        <span class="preset" style="background:#ffeaa7" data-color="#ffeaa7" data-target="fill"></span>
+        <span class="preset" style="background:#fd79a8" data-color="#fd79a8" data-target="fill"></span>
+        <span class="preset" style="background:#74b9ff" data-color="#74b9ff" data-target="fill"></span>
+        <span class="preset" style="background:#55efc4" data-color="#55efc4" data-target="fill"></span>
+        <span class="preset" style="background:#a29bfe" data-color="#a29bfe" data-target="fill"></span>
+        <span class="preset" style="background:#dfe6e9" data-color="#dfe6e9" data-target="fill"></span>
+        <span class="preset transparent-preset" data-color="transparent" data-target="fill" title="No fill"></span>
+      </div>
+    </div>
+    <div class="fill-opacity-row">
+      <label>Opacity</label>
+      <input type="range" id="fill-opacity" min="0" max="1" step="0.05" value="0.1" />
+      <span id="fill-opacity-val">10%</span>
+    </div>
+  </div>
+
+  <!-- Stroke Width -->
+  <div class="opt-group">
+    <label>Stroke Width <span id="stroke-size-val">3</span>px</label>
+    <input type="range" id="stroke-size" min="1" max="50" value="3" />
+  </div>
+
+  <!-- Stroke Style -->
+  <div class="opt-group">
+    <label>Stroke Style</label>
+    <div class="stroke-styles">
+      <button class="stroke-style-btn active" data-dash="solid" title="Solid">—</button>
+      <button class="stroke-style-btn" data-dash="dashed" title="Dashed">- -</button>
+      <button class="stroke-style-btn" data-dash="dotted" title="Dotted">···</button>
+    </div>
+  </div>
+
+  <!-- Font (shown for text/sticky tool OR selected text/sticky element) -->
+  <div class="opt-group" id="font-group">
+    <label>Font Size <span id="font-size-val">18</span>px</label>
+    <input type="range" id="font-size" min="8" max="120" value="18" />
+    <select id="font-family">
+      <option value="sans-serif">Sans-serif</option>
+      <option value="serif">Serif</option>
+      <option value="monospace">Monospace</option>
+      <option value="cursive">Cursive</option>
+      <option value="Georgia, serif">Georgia</option>
+    </select>
+    <div class="font-style-row">
+      <button class="font-style-btn" data-style="bold" title="Bold"><b>B</b></button>
+      <button class="font-style-btn" data-style="italic" title="Italic"><i>I</i></button>
+    </div>
+  </div>
+
+  <!-- Opacity -->
+  <div class="opt-group">
+    <label>Opacity <span id="opacity-val">100</span>%</label>
+    <input type="range" id="opacity" min="0.1" max="1" step="0.05" value="1" />
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ZOOM INDICATOR
+════════════════════════════════════════════ -->
+<!-- Floating zoom control widget (bottom-left above pages bar) -->
+<div class="zoom-widget" id="zoom-widget">
+  <button class="zoom-btn" id="zoom-out-btn" title="Zoom Out (−)">−</button>
+  <button class="zoom-pct" id="zoom-indicator" title="Reset to 100% (0)">100%</button>
+  <button class="zoom-btn" id="zoom-in-btn"  title="Zoom In (+)">+</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CANVAS CONTAINER
+════════════════════════════════════════════ -->
+<main class="canvas-container" id="canvas-container">
+  <canvas id="main-canvas"></canvas>
+  <!-- Overlay canvas for live drawing preview -->
+  <canvas id="overlay-canvas"></canvas>
+  <!-- Hidden text input for text tool -->
+  <textarea id="text-input" class="floating-textarea" placeholder="Type here..."></textarea>
+</main>
+
+<!-- ═══════════════════════════════════════════
+     PAGES BAR (bottom)
+════════════════════════════════════════════ -->
+<div class="pages-bar" id="pages-bar">
+  <div class="pages-scroll" id="pages-list"></div>
+  <button class="page-add-btn" id="btn-add-page" title="Add new page">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+    </svg>
+    New Page
+  </button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CONTEXT MENU
+════════════════════════════════════════════ -->
+<div class="context-menu" id="context-menu">
+  <button class="ctx-btn" id="ctx-duplicate">Duplicate</button>
+  <button class="ctx-btn" id="ctx-bring-front">Bring to Front</button>
+  <button class="ctx-btn" id="ctx-send-back">Send to Back</button>
+  <hr />
+  <button class="ctx-btn danger" id="ctx-delete">Delete</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     STICKY NOTE EDITOR (modal-like)
+════════════════════════════════════════════ -->
+<div class="sticky-editor" id="sticky-editor" style="display:none">
+  <textarea id="sticky-input" placeholder="Write your note..."></textarea>
+  <div class="sticky-colors">
+    <span class="sticky-color active" style="background:#ffeaa7" data-color="#ffeaa7"></span>
+    <span class="sticky-color" style="background:#fd79a8" data-color="#fd79a8"></span>
+    <span class="sticky-color" style="background:#74b9ff" data-color="#74b9ff"></span>
+    <span class="sticky-color" style="background:#55efc4" data-color="#55efc4"></span>
+    <span class="sticky-color" style="background:#a29bfe" data-color="#a29bfe"></span>
+  </div>
+  <div class="sticky-actions">
+    <button id="sticky-cancel">Cancel</button>
+    <button id="sticky-ok" class="primary">Add Note</button>
+  </div>
+</div>
+
+<!-- PDF Export Progress overlay -->
+<div class="pdf-overlay" id="pdf-overlay" style="display:none">
+  <div class="pdf-modal">
+    <div class="pdf-spinner"></div>
+    <div id="pdf-status">Generating PDF…</div>
+  </div>
+</div>
+
+<!-- jsPDF from CDN (for multi-page PDF export) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="app-footer">
+  <span class="footer-badge">🎓 Learning Project</span>
+  <span class="footer-divider">·</span>
+  <span>Prompted by <strong>Bhavesh Patel</strong></span>
+  <span class="footer-divider">·</span>
+  <span>Developed by <strong>Claude (Anthropic)</strong></span>
+  <span class="footer-divider">·</span>
+  <span class="footer-note">Built to explore prompt engineering &amp; AI-assisted web development</span>
+</footer>
+
+</body>
+</html>
