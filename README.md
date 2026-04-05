@@ -1,6 +1,6 @@
-# 🧠 Browser-Based Whiteboard for Online Teaching
+# 🧠 Built a Browser-Based Whiteboard using simple Prompt
 
-Built a simple, fast, and practical whiteboard designed specifically for **live teaching and explanations** — directly in the browser.
+I wanted something simple, fast, and actually useful during live classes, so I built whiteboard with the help of next-gen AI assistant (Claude).
 
 ---
 
