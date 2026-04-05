@@ -81,6 +81,10 @@ open index.html
 
 ---
 
+## 🤖 AI Contribution
+
+This project was built with coding assistance from Claude (Anthropic AI).
+
 ## 🤝 Contributing
 
 Contributions, ideas, and improvements are welcome!
