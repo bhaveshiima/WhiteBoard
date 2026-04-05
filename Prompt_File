@@ -1,0 +1,201 @@
+Create a **production-quality, browser-based whiteboard application** using **HTML, CSS, and JavaScript (Canvas API)**.
+
+The goal is to build a **modern, user-friendly, Miro/Excalidraw-like whiteboard** optimized for **live teaching, collaboration, and SaaS scalability**.
+
+---
+
+# 🎯 Core Requirements
+
+The whiteboard must be:
+
+* Smooth, fast, and responsive (low latency drawing)
+* Highly intuitive and beginner-friendly
+* Designed with **modern UI/UX standards**
+* Built with a **scalable architecture** (ready for SaaS expansion)
+
+---
+
+# 🎨 UI / UX DESIGN (VERY IMPORTANT)
+
+Design a **beautiful, modern interface** similar to Miro / Figma:
+
+### Layout:
+
+* Floating **glassmorphism toolbar (top center)**
+* Left sidebar for **pages/slides**
+* Clean infinite canvas area
+* Minimal, distraction-free design
+
+### UI Features:
+
+* Icon-based toolbar (pen, shapes, text, select, eraser)
+* Active tool highlighting
+* Smooth hover and interaction states
+* Cursor feedback (resize, move, draw)
+* Rounded corners, soft shadows, modern spacing
+
+---
+
+# ✏️ DRAWING SYSTEM
+
+### Tools:
+
+* Pen tool with **smooth Bezier curves**
+* Eraser tool
+* Shapes:
+
+  * Rectangle
+  * Circle
+  * Line
+  * Arrow
+* Text tool (inline editing, NOT prompt-based)
+
+### Customization:
+
+* Color picker (stroke + fill)
+* Brush size control
+* Font size & styling
+
+---
+
+# 🧩 OBJECT SYSTEM (IMPORTANT)
+
+Implement a proper **object-based architecture**:
+
+Each element should be an object:
+
+* type (path, rect, circle, text, etc.)
+* position, size
+* style properties
+* transform state
+
+### Object Features:
+
+* Select objects
+* Move objects
+* Resize using **corner handles (4 corners minimum)**
+* Delete objects
+* Highlight selected object
+
+---
+
+# 🌍 CANVAS SYSTEM
+
+### Infinite Canvas:
+
+* Zoom in/out (centered on cursor)
+* Pan:
+
+  * Middle mouse OR
+  * Spacebar + drag (like Figma)
+
+### Performance:
+
+* Efficient redraw system
+* Only redraw necessary elements
+
+---
+
+# 📄 MULTI-PAGE SYSTEM
+
+* Support multiple pages (like slides)
+* Sidebar to switch pages
+* Add/delete pages
+* Maintain separate state per page
+
+---
+
+# ⌨️ KEYBOARD SHORTCUTS
+
+* Ctrl + Z → Undo
+* Ctrl + Y → Redo
+* Delete → Remove selected object
+* Space → Pan mode
+* Ctrl + S → Save
+
+---
+
+# 💾 STORAGE SYSTEM
+
+* Save board state in JSON
+* Load from localStorage
+* Export options:
+
+  * PNG image
+  * PDF (multi-page)
+
+---
+
+# ⚙️ ARCHITECTURE (CRITICAL)
+
+Code must be clean and modular:
+
+* Separate concerns:
+
+  * Rendering engine
+  * State management
+  * Event handling
+* Maintain a central state like:
+
+  * pages[]
+  * currentPage
+  * selectedObject
+
+Structure code so it can later support:
+
+* WebSockets (real-time collaboration)
+* Backend APIs (save/load boards)
+* Multi-user editing
+
+---
+
+# 🚀 ADVANCED FEATURES (IMPORTANT)
+
+Include if possible:
+
+* Smooth drawing using quadratic curves
+* Resize handles UI (visible corners)
+* Bounding box for selected objects
+* Grid toggle (optional)
+* Dark mode (optional)
+* Image upload (optional)
+
+---
+
+# 📱 RESPONSIVENESS
+
+* Must work on desktop + tablet
+* Touch support (basic)
+
+---
+
+# 📁 OUTPUT FORMAT
+
+Provide complete working code:
+
+* Single HTML file OR
+* index.html + style.css + script.js
+
+Include:
+
+* Clear comments
+* Clean structure
+* Production-quality code
+
+---
+
+# 🧠 FINAL GOAL
+
+This should NOT be a basic demo.
+
+It should feel like:
+
+* A real product
+* Ready to extend into a SaaS application
+* Suitable for real-world teaching and collaboration
+
+Prioritize:
+
+* UX quality
+* Smooth interactions
+* Clean architecture
