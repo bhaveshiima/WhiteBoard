@@ -69,6 +69,9 @@ open index.html
 
 ---
 
+## Prompt by me and Developed by Claude
+
+
 ## 💡 Future Improvements
 
 * Real-time collaboration (multi-user)
